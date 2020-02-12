@@ -3,9 +3,12 @@
         <div class="carousel-container">
             <i class="fas fa-chevron-left" id="prevBtn" @click="goPrevious()"></i>
             <i class="fas fa-chevron-right" id="nextBtn" @click="goNext()"></i>
-            <div class="carousel-slide">
-                <img :src="activeImage.download_url" alt="no_image" />
-            </div>
+            <transition-group name="slide-fade" tag="div" class="carousel-slide">
+                <!-- <img :src="activeImage.download_url" alt="no_image" /> -->
+                <div v-for="i in [counter]" :key="i">
+                    <img :src="activeImage.download_url" />
+                </div>
+            </transition-group>
         </div>
 
         <div class="images-lineup">
@@ -88,6 +91,15 @@ export default {
         display: flex;
         width: 100%;
         height: 500px;
+
+        .slide-fade-enter-active {
+            transition: all 0.5s ease-in;
+        }
+        .slide-fade-enter,
+        .slide-fade-leave-to {
+            transform: translateX(10px);
+            opacity: 0.7;
+        }
 
         img {
             width: 100%;
