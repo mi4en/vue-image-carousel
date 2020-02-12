@@ -9,7 +9,13 @@
         </div>
 
         <div class="images-lineup">
-            <img v-for="image in images" :key="image.id" :src="image.download_url" alt="" />
+            <img
+                v-for="(image, index) in images"
+                :key="image.id"
+                :src="image.download_url"
+                :class="index === activeImage ? 'previewed' : ''"
+                alt="some_img"
+            />
         </div>
     </div>
 </template>
@@ -23,6 +29,7 @@ export default {
         return {
             images: [],
             counter: 0,
+            activeImage: 0,
         };
     },
     methods: {
@@ -46,6 +53,8 @@ export default {
     },
     created() {
         this.getImages();
+
+        this.activeImage = this.images[0];
     },
 };
 </script>
