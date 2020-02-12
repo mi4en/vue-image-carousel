@@ -4,7 +4,7 @@
             <i class="fas fa-chevron-left" id="prevBtn" @click="goPrevious()"></i>
             <i class="fas fa-chevron-right" id="nextBtn" @click="goNext()"></i>
             <div class="carousel-slide">
-                <img v-for="image in images" :key="image.id" :src="image.download_url" alt="" />
+                <img :src="activeImage.download_url" alt="no_image" />
             </div>
         </div>
 
@@ -13,7 +13,8 @@
                 v-for="(image, index) in images"
                 :key="image.id"
                 :src="image.download_url"
-                :class="index === activeImage ? 'previewed' : ''"
+                :class="image.id === activeImage.id ? 'previewed' : ''"
+                @click="selectFromLineup(index)"
                 alt="some_img"
             />
         </div>
@@ -29,7 +30,7 @@ export default {
         return {
             images: [],
             counter: 0,
-            activeImage: 0,
+            activeImage: {},
         };
     },
     methods: {
@@ -38,23 +39,39 @@ export default {
                 const res = await axios.get('https://picsum.photos/v2/list?limit=5');
                 console.log(res.data);
                 this.images = res.data;
+                this.activeImage = this.images[0];
+                console.log('active: ', this.activeImage);
                 return res;
             } catch (error) {
                 console.log(error);
             }
         },
-        goPrevious() {
-            // The if else is used only to catch when we go from last to first so we speed the transition
-        },
         goNext() {
-            // The if else is used only to catch when we go from first to last so we speed the transition
+            if (this.counter >= this.images.length - 1) {
+                this.counter = 0;
+                this.activeImage = this.images[this.counter];
+            } else {
+                this.counter++;
+                this.activeImage = this.images[this.counter];
+            }
         },
-        focusPreviewedImg() {},
+        goPrevious() {
+            if (this.counter <= 0) {
+                this.counter = this.images.length - 1;
+                this.activeImage = this.images[this.counter];
+            } else {
+                this.counter--;
+                this.activeImage = this.images[this.counter];
+            }
+        },
+        selectFromLineup(imageIndex) {
+            this.counter = imageIndex;
+            this.activeImage = this.images[this.counter];
+        },
     },
+
     created() {
         this.getImages();
-
-        this.activeImage = this.images[0];
     },
 };
 </script>
@@ -130,7 +147,7 @@ export default {
 }
 
 .previewed {
-    border: 3px solid blue !important;
+    border: 3px solid yellow !important;
     transform: scale(1.3);
 }
 </style>
