@@ -18,28 +18,20 @@ export default {
             images: [],
         };
     },
-    // methods: {
-    //     async getImages() {
-    //         try {
-    //             const res = await axios.get('https://picsum.photos/v2/list?limit=5');
-    //             console.log(res.data);
-    //             this.images = res.data;
-    //             this.activeImage = this.images[0];
-    //             console.log('active: ', this.activeImage);
-    //             return res;
-    //         } catch (error) {
-    //             console.log(error);
-    //         }
-    //     },
-    // },
+    methods: {
+        // Get images for the image-carousel component
+        async getImages() {
+            try {
+                const res = await axios.get('https://picsum.photos/v2/list?limit=5');
+                this.images = res.data;
+                return res;
+            } catch (error) {
+                console.log(error);
+            }
+        },
+    },
     async created() {
-        try {
-            const res = await axios.get('https://picsum.photos/v2/list?limit=5');
-            console.log(res.data);
-            this.images = res.data;
-        } catch (error) {
-            console.log(error);
-        }
+        this.getImages();
     },
 };
 </script>

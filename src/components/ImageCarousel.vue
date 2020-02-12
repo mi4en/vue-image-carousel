@@ -4,7 +4,6 @@
             <i class="fas fa-chevron-left" id="prevBtn" @click="goPrevious()"></i>
             <i class="fas fa-chevron-right" id="nextBtn" @click="goNext()"></i>
             <transition-group name="slide-fade" tag="div" class="carousel-slide">
-                <!-- <img :src="activeImage.download_url" alt="no_image" /> -->
                 <div v-for="i in [counter]" :key="i">
                     <img :src="activeImage.download_url" />
                 </div>
@@ -144,7 +143,7 @@ export default {
         margin-right: 5px;
         border: 1px solid purple;
         cursor: pointer;
-        transition: all 0.2s ease-in-out;
+        transition: all 0.3s ease-in-out;
         margin: 2px 2px;
     }
 }
