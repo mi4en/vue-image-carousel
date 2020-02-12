@@ -25,30 +25,21 @@
 </template>
 
 <script>
-import axios from 'axios';
-
 export default {
     name: 'image-carousel',
+    props: {
+        images: {
+            type: Array,
+            required: true,
+        },
+    },
     data() {
         return {
-            images: [],
             counter: 0,
             activeImage: {},
         };
     },
     methods: {
-        async getImages() {
-            try {
-                const res = await axios.get('https://picsum.photos/v2/list?limit=5');
-                console.log(res.data);
-                this.images = res.data;
-                this.activeImage = this.images[0];
-                console.log('active: ', this.activeImage);
-                return res;
-            } catch (error) {
-                console.log(error);
-            }
-        },
         goNext() {
             if (this.counter >= this.images.length - 1) {
                 this.counter = 0;
@@ -72,9 +63,9 @@ export default {
             this.activeImage = this.images[this.counter];
         },
     },
-
-    created() {
-        this.getImages();
+    mounted() {
+        console.log('images: ', this.images);
+        this.activeImage = this.images[0];
     },
 };
 </script>
